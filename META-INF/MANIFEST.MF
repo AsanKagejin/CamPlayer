@@ -1,3 +1,5 @@
 Manifest-Version: 1.0
+Class-Path: jars\jna-4.1.0.jar jars\jna-platform-4.1.0.jar jars\slf4j-
+ api-1.7.10.jar jars\vlcj-3.10.1.jar
 Main-Class: com.tis.camplayer.MainFrame
 
