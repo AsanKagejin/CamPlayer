@@ -5,24 +5,42 @@ package com.tis.camplayer;
  */
 
 class Camera {
-	private String addr, name;
+	private String name,protocol, login, password, ip_addr, port, stream_addr;
 
-	Camera(String name, String addr){
-		this.name = name;
-		this.addr = addr;
+	Camera(){
+		name = "";
+		protocol = "rtsp";
+		login = "";
+		password = "";
+		ip_addr = "";
+		port = "554";
+		stream_addr = "";
 	}
 
-	String getAddr() {
-		return addr;
+	String getAddress() {
+		return protocol + "://" + login + "@" + password + ":" + ip_addr + ":" + port + "@" + stream_addr;
 	}
 
-	void setAddr(String addr) {
-		this.addr = addr;
+	void setAddress(String protocol, String login, String password, String ip_addr, String port, String stream_addr){
+		this.protocol = protocol;
+		this.login = login;
+		this.password = password;
+		this.ip_addr = ip_addr;
+		this.port = port;
+		this.stream_addr = stream_addr;
 	}
 
 	String getName() { return name; }
 
 	void setName(String name) { this.name = name; }
+
+	String getLogin() { return login; }
+
+	String getPassword() { return password; }
+
+	String getIP_addr() { return ip_addr; }
+
+	String getStream_addr() { return stream_addr; }
 
 	@Override
 	public String toString() {

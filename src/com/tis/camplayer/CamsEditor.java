@@ -1,7 +1,10 @@
 package com.tis.camplayer;
 
 import javax.swing.*;
+import javax.swing.event.ListDataListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -38,8 +41,13 @@ class CamsEditor extends JDialog {
 		contentPanel.add(label, cons);
 
 
-		camList = new JList<>(state.cams);
+		camList = new JList<>();
 		camList.setCellRenderer(new CameraListRenderer());
+		DefaultListModel<Camera> listModel = new DefaultListModel<>();
+		for (Camera camera : state.cams)
+			listModel.addElement(camera);
+		camList.setModel(listModel);
+		camList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		cons.gridy = 1;
 		cons.weighty = 1.0;
 		cons.gridheight = 5;
@@ -48,6 +56,11 @@ class CamsEditor extends JDialog {
 
 		JButton addButton = new JButton("Add camera");
 		addButton.setSize(80, 20);
+		addButton.addActionListener(e -> {
+			Camera camera = new Camera();
+			new EditDialog(camera);
+			listModel.addElement(camera);
+		});
 		cons.gridheight = 1;
 		cons.weightx = 0.1;
 		cons.weighty = 0.1;
@@ -57,11 +70,13 @@ class CamsEditor extends JDialog {
 
 		JButton editButton = new JButton("Edit camera");
 		editButton.setSize(80, 20);
+		editButton.addActionListener(e -> new EditDialog(camList.getSelectedValue()));
 		cons.gridy = 2;
 		contentPanel.add(editButton, cons);
 
 		JButton deleteButton = new JButton("Delete camera");
 		deleteButton.setSize(80, 20);
+		deleteButton.addActionListener(e -> camList.remove(camList.getSelectedIndex()));
 		cons.gridy = 3;
 		contentPanel.add(deleteButton, cons);
 
@@ -72,6 +87,7 @@ class CamsEditor extends JDialog {
 
 		JButton closeButton = new JButton("Close");
 		closeButton.setSize(80, 20);
+		closeButton.addActionListener(e -> dispose());
 		cons.weighty = 0.1;
 		cons.gridy = 5;
 		cons.anchor = GridBagConstraints.LAST_LINE_END;
