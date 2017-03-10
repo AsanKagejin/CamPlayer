@@ -3,6 +3,7 @@ package com.tis.camplayer;
 import java.awt.*;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Vector;
 
 import com.sun.jna.Native;
 
@@ -11,10 +12,10 @@ import com.sun.jna.Native;
  */
 
 class PlayerControllerFactory {
-	static PlayerController newPlayerController(Canvas canvas){
+	static PlayerController newPlayerController(Canvas canvas, Vector<Camera> cams){
 		long canvasID = Native.getComponentID(canvas);
 		try {
-			return new PlayerController(startNewJVM(canvasID), canvas);
+			return new PlayerController(startNewJVM(canvasID), canvas, cams);
 		} catch (IOException e) {
 			throw new RuntimeException("Unable to start new player", e);
 		}

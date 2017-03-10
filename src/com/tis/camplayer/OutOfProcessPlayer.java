@@ -21,6 +21,8 @@ class OutOfProcessPlayer {
 		EmbeddedMediaPlayer player = factory.newEmbeddedMediaPlayer();
 		factory.newVideoSurface(canvasID).attach(libInstance, player);
 		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+		player.setEnableMouseInputHandling(false);
+		player.setEnableKeyInputHandling(true);
 		String inputLine = "";
 		while (true){
 			try {

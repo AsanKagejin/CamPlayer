@@ -1,10 +1,12 @@
 package com.tis.camplayer;
 
+import java.io.Serializable;
+
 /**
  * Created by Asan on 06.03.2017.
  */
 
-class Camera {
+class Camera implements Serializable{
 	private String name,protocol, login, password, ip_addr, port, stream_addr;
 
 	Camera(){
@@ -18,7 +20,7 @@ class Camera {
 	}
 
 	String getAddress() {
-		return protocol + "://" + login + "@" + password + ":" + ip_addr + ":" + port + "@" + stream_addr;
+		return protocol + "://" + login + "@" + password + ":" + ip_addr + ":" + port + "/" + stream_addr;
 	}
 
 	void setAddress(String protocol, String login, String password, String ip_addr, String port, String stream_addr){
@@ -34,11 +36,15 @@ class Camera {
 
 	void setName(String name) { this.name = name; }
 
+	String getProtocol() { return protocol;}
+
 	String getLogin() { return login; }
 
 	String getPassword() { return password; }
 
 	String getIP_addr() { return ip_addr; }
+
+	String getPort() { return port; }
 
 	String getStream_addr() { return stream_addr; }
 

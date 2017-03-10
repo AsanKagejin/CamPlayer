@@ -1,12 +1,11 @@
 package com.tis.camplayer;
 
 import javax.swing.*;
-import javax.swing.event.ListDataListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Vector;
 
 /**
  * Created by Asan on 06.03.2017.
@@ -87,7 +86,13 @@ class CamsEditor extends JDialog {
 
 		JButton closeButton = new JButton("Close");
 		closeButton.setSize(80, 20);
-		closeButton.addActionListener(e -> dispose());
+		closeButton.addActionListener((ActionEvent e) -> {
+			int size = listModel.getSize();
+			state.cams = new Vector<>(size);
+			for(int i = 0; i < size; i++)
+				state.cams.add(listModel.get(i));
+			dispose();
+		});
 		cons.weighty = 0.1;
 		cons.gridy = 5;
 		cons.anchor = GridBagConstraints.LAST_LINE_END;

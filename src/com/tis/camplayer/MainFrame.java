@@ -2,9 +2,7 @@ package com.tis.camplayer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.Vector;
 
 /**
@@ -75,7 +73,7 @@ public class MainFrame extends JFrame {
 		setJMenuBar(menuBar);
 		setVisible(true);
 		players = createPlayerProcesses(canvases);
-		setMRLs();
+		//setMRLs();
 	}
 
 	private Vector<Canvas> createContainers(JPanel parent){
@@ -94,7 +92,7 @@ public class MainFrame extends JFrame {
 	private Vector<PlayerController> createPlayerProcesses(Vector<Canvas> canvases){
 		Vector<PlayerController> temp = new Vector<>();
 		for (Canvas canvas: canvases)
-			temp.add(PlayerControllerFactory.newPlayerController(canvas));
+			temp.add(PlayerControllerFactory.newPlayerController(canvas, state.cams));
 		return temp;
 	}
 	private void redrawCams(int rows, int cols){
