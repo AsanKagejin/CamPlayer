@@ -20,7 +20,7 @@ class Camera implements Serializable{
 	}
 
 	String getAddress() {
-		return protocol + "://" + login + "@" + password + ":" + ip_addr + ":" + port + "/" + stream_addr;
+		return protocol + "://" + login + ":" + password + "@" + ip_addr + ":" + port + stream_addr;
 	}
 
 	void setAddress(String protocol, String login, String password, String ip_addr, String port, String stream_addr){

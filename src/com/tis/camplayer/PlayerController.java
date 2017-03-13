@@ -3,7 +3,7 @@ package com.tis.camplayer;
 import com.sun.jna.Native;
 
 import javax.swing.*;
-import java.awt.Canvas;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedWriter;
@@ -20,14 +20,15 @@ class PlayerController {
 
 	private BufferedWriter out;
 	private Canvas container;
+	private JList<Camera> camList;
 	private JPopupMenu popupMenu;
-	private String attachedMRL;
+	String attachedMRL;
 
 	PlayerController(OutputStream stream, Canvas canvas, Vector<Camera> cams){
 		out = new BufferedWriter(new OutputStreamWriter(stream));
 		container = canvas;
 		popupMenu = new JPopupMenu("Select camera");
-		JList<Camera> camList = new JList<>();
+		camList = new JList<>();
 		camList.setCellRenderer(new CameraListRenderer());
 		DefaultListModel<Camera> listModel = new DefaultListModel<>();
 		for (Camera camera : cams)
@@ -60,28 +61,38 @@ class PlayerController {
 					try {
 						OutputStream output = PlayerControllerFactory.startNewJVM(Native.getComponentID(container));
 						out = new BufferedWriter(new OutputStreamWriter(output));
-						// replace with say("play " + attachedMRL);
-						say("play rtsp://oper:oper@192.168.9.33:554/axis-media/media.amp");
+						say("play " + attachedMRL);
+						System.err.print(e.getSource().getClass().toGenericString()+" source\n");
+						System.err.print(this.getClass().toGenericString()+" this\n");
+						//say("play rtsp://oper:oper@192.168.9.33:554/axis-media/media.amp");
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
 				}
 			}
 		} );
-		canvas.revalidate();
 	}
 
-	void say(String command){
+	boolean say(String command){
 		try {
 			out.write(command+"\n");
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
 
-	private void setAttachedMRL(String MRL){
+	void setAttachedMRL(String MRL){
 		attachedMRL = MRL;
+	}
+
+	void rebuildPopupMenu(Vector<Camera> cams){
+		DefaultListModel<Camera> listModel = new DefaultListModel<>();
+		for (Camera camera : cams)
+			listModel.addElement(camera);
+		camList.setModel(listModel);
 	}
 
 	private void showPopupMenu(MouseEvent e){

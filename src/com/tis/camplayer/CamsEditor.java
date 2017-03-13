@@ -1,10 +1,13 @@
 package com.tis.camplayer;
 
+import javax.activation.DataHandler;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.*;
+import java.io.IOException;
 import java.util.Vector;
 
 /**
@@ -40,13 +43,14 @@ class CamsEditor extends JDialog {
 		contentPanel.add(label, cons);
 
 
-		camList = new JList<>();
+		camList = new ReorderableJList<>();
 		camList.setCellRenderer(new CameraListRenderer());
 		DefaultListModel<Camera> listModel = new DefaultListModel<>();
 		for (Camera camera : state.cams)
 			listModel.addElement(camera);
 		camList.setModel(listModel);
 		camList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		camList.setDragEnabled(true);
 		cons.gridy = 1;
 		cons.weighty = 1.0;
 		cons.gridheight = 5;

@@ -66,7 +66,11 @@ public class MainFrame extends JFrame {
 
 		menuItem = new JMenuItem("Settings");
 		menuItem.setSize(new Dimension(60, 20));
-		menuItem.addActionListener(e -> SwingUtilities.invokeLater(() -> new CamsEditor(state)));
+		menuItem.addActionListener(e -> SwingUtilities.invokeLater(() -> {
+			new CamsEditor(state);
+			for (PlayerController player : players)
+				player.rebuildPopupMenu(state.cams);
+		}));
 		menuBar.add(menuItem);
 
 		setContentPane(contentPanel);
@@ -78,7 +82,7 @@ public class MainFrame extends JFrame {
 
 	private Vector<Canvas> createContainers(JPanel parent){
 		Vector<Canvas> temp = new Vector<>();
-		parent.setLayout(new GridLayout(state.cols, state.rows));
+		parent.setLayout(new GridLayout(state.rows, state.cols));
 		for(int i = 0; i < (state.rows * state.cols); i++){
 			Canvas canvas = new Canvas();
 			parent.add(canvas);
@@ -91,8 +95,10 @@ public class MainFrame extends JFrame {
 
 	private Vector<PlayerController> createPlayerProcesses(Vector<Canvas> canvases){
 		Vector<PlayerController> temp = new Vector<>();
-		for (Canvas canvas: canvases)
+		for (Canvas canvas: canvases) {
 			temp.add(PlayerControllerFactory.newPlayerController(canvas, state.cams));
+			canvas.revalidate();
+		}
 		return temp;
 	}
 	private void redrawCams(int rows, int cols){
@@ -107,14 +113,11 @@ public class MainFrame extends JFrame {
 		setMRLs();
 	}
 
-	private void setMRLs(){	//must be replaced with reading state.cams
-		for (PlayerController player: players)
-			player.say("play rtsp://oper:oper@192.168.9.33:554/axis-media/media.amp");
-	}
-
-	/*private void setMRLs(){
-		for(int i = 0; i < players.size(); i++){
-			players.elementAt(i).say("play " + state.cams.elementAt(i).getAddr());
+	private void setMRLs(){
+		for (int i = 0; i < (players.size() < state.cams.size() ? players.size() : state.cams.size()); i++){
+			PlayerController player = players.get(i);
+			player.setAttachedMRL(state.cams.get(i).getAddress());
+			player.say("play " + player.attachedMRL);
 		}
-	}*/
+	}
 }
