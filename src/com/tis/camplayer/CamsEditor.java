@@ -1,13 +1,8 @@
 package com.tis.camplayer;
 
-import javax.activation.DataHandler;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.*;
-import java.io.IOException;
 import java.util.Vector;
 
 /**
